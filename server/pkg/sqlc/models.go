@@ -35,6 +35,7 @@ type Portfolio struct {
 
 type Transaction struct {
 	ID               int64     `json:"id"`
+	AccountID        int64     `json:"account_id"`
 	CoinID           int64     `json:"coin_id"`
 	CoinName         string    `json:"coin_name"`
 	Symbol           string    `json:"symbol"`
