@@ -1,25 +1,42 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
+)
 
 type User struct {
-	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Email    string             `json:"email,omitempty" bson:"email,omitempty"`
-	Name     string             `json:"name,omitempty" bson:"name,omitempty"`
-	LastName string             `json:"lastName,omitempty" bson:"lastName,omitempty"`
-	Password string             `json:"password,omitempty" bson:"password,omitempty"`
+	ID       int64
+	Email    string
+	Name     string
+	LastName string
+	Password string
 }
 
 type LoginUser struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string
+	Password string
 }
 
 type UserRegister struct {
-	Email    string `json:"email"`
-	Name     string `json:"name"`
-	LastName string `json:"lastName"`
-	Token    string `json:"token"`
+	Email    string
+	Name     string
+	LastName string
+	Token    string
+}
+
+type AddCoin struct {
+	ID           primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	User         primitive.ObjectID `json:"user,omitempty" bson:"user,omitempty"`
+	CoinName     string             `json:"coinName,omitempty" bson:"coinName,omitempty"`
+	Symbol       string             `json:"symbol,omitempty" bson:"symbol,omitempty"`
+	TotalSpent   int                `json:"totalSpent,omitempty" bson:"totalSpent,omitempty"`
+	Quantity     int                `json:"quantity,omitempty" bson:"quantity,omitempty"`
+	PricePerCoin int                `json:"pricePerCoin,omitempty" bson:"pricePerCoin,omitempty"`
+	Date         time.Time          `json:"date,omitempty" bson:"date,omitempty"`
+}
+
+type UpdateCoin struct {
 }
 
 //{

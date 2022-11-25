@@ -4,7 +4,6 @@ CREATE TABLE "users" (
   "name" varchar NOT NULL,
   "last_name" varchar NOT NULL,
   "password" varchar NOT NULL,
-  "football_id" bigint NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
@@ -22,7 +21,7 @@ CREATE TABLE "watchlist_coins" (
   "rank" smallint NOT NULL
 );
 
-CREATE TABLE "portfolio" (
+CREATE TABLE "portfolios" (
   "id" bigserial PRIMARY KEY,
   "name" varchar NOT NULL,
   "account_id" bigint NOT NULL
@@ -40,6 +39,7 @@ CREATE TABLE "coins" (
 
 CREATE TABLE "transactions" (
   "id" bigserial PRIMARY KEY,
+  "account_id" bigint NOT NULL,
   "coin_id" bigint NOT NULL,
   "coin_name" varchar NOT NULL,
   "symbol" varchar NOT NULL,
@@ -53,6 +53,7 @@ CREATE TABLE "transactions" (
 
 CREATE TABLE "football" (
   "id" bigserial PRIMARY KEY,
+  "account_id" bigint NOT NULL,
   "team" varchar,
   "league" varchar,
   "country" varchar
@@ -64,7 +65,7 @@ CREATE INDEX ON "watchlists" ("account_id");
 
 CREATE INDEX ON "watchlist_coins" ("symbol");
 
-CREATE INDEX ON "portfolio" ("account_id");
+CREATE INDEX ON "portfolios" ("account_id");
 
 CREATE INDEX ON "coins" ("portfolio_id");
 
@@ -72,14 +73,16 @@ CREATE INDEX ON "transactions" ("coin_id");
 
 CREATE INDEX ON "transactions" ("type");
 
-ALTER TABLE "users" ADD FOREIGN KEY ("football_id") REFERENCES "football" ("id");
-
 ALTER TABLE "watchlists" ADD FOREIGN KEY ("account_id") REFERENCES "users" ("id");
 
 ALTER TABLE "watchlist_coins" ADD FOREIGN KEY ("watchlist_id") REFERENCES "watchlists" ("id");
 
-ALTER TABLE "portfolio" ADD FOREIGN KEY ("account_id") REFERENCES "users" ("id");
+ALTER TABLE "portfolios" ADD FOREIGN KEY ("account_id") REFERENCES "users" ("id");
 
-ALTER TABLE "coins" ADD FOREIGN KEY ("portfolio_id") REFERENCES "portfolio" ("id");
+ALTER TABLE "coins" ADD FOREIGN KEY ("portfolio_id") REFERENCES "portfolios" ("id");
+
+ALTER TABLE "transactions" ADD FOREIGN KEY ("account_id") REFERENCES "users" ("id");
 
 ALTER TABLE "transactions" ADD FOREIGN KEY ("coin_id") REFERENCES "coins" ("id");
+
+ALTER TABLE "football" ADD FOREIGN KEY ("account_id") REFERENCES "users" ("id");
