@@ -62,7 +62,7 @@ const News = ({ simplified }) => {
                 </Title>
                 <img
                   style={{ maxWidth: '200px', maxHeight: '100px' }}
-                  src={news?.image?.thumbnail?.contentUrl || demoImage}
+                  src={news?.image?.url || demoImage}
                   alt=""
                 />
               </div>
@@ -70,10 +70,10 @@ const News = ({ simplified }) => {
               <div className="provider-container">
                 <div>
                   <Avatar
-                    src={news.provider[0]?.image?.thumbnail?.contentUrl || demoImage}
+                    src={news.provider?.name || demoImage}
                     alt=""
                   />
-                  <Text className="provider-name">{news.provider[0]?.name}</Text>
+                  <Text className="provider-name">{news.provider?.name}</Text>
                 </div>
                 <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
               </div>
