@@ -13,9 +13,20 @@ export const cryptoApi = createApi({
   }),
   endpoints: (builder) => ({
     getCryptos: builder.query({ query: (count) => `/coins?limit=${count}` }),
-    getCryptoDetails: builder.query({ query: (coinId) => `/coin/${coinId}` }),
-    getCryptoHistory: builder.query({ query: ({ coinId, timePeriod }) => ({ url: `/coin/${coinId}/history`, params: { timePeriod } }) }),
+    getCryptoHistory: builder.query({ query: ({ coinUUID, timePeriod }) => ({ url: `/coin/${coinUUID}/history`, params: { timePeriod } }) }),
   }),
 });
 
-export const { useGetCryptosQuery, useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } = cryptoApi;
+export const cryptoLocalApi = createApi({
+  reducerPath: 'cryptoLocalApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://0.0.0.0:8080/v1',
+  }),
+  endpoints: (builder) => ({
+    listCoins: builder.query({ query: (count) => `/list_coins?limit=${count}&offset=0` }),
+    getCoinDetails: builder.query({ query: (coinId) => `/coin?coin_id=${coinId}` }),
+  }),
+});
+
+export const { useGetCryptosQuery, useGetCryptoHistoryQuery } = cryptoApi;
+export const { useListCoinsQuery, useGetCoinDetailsQuery } = cryptoLocalApi;

@@ -31,7 +31,7 @@ const App = () => {
               />
 
               <Route
-                path="/crypto/:coinId"
+                path="/crypto/:coinId/:coinUUID"
                 element={<CryptoDetails />}
               />
 
