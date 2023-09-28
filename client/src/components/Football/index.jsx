@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Select } from 'antd';
 import { v1 as uuidv1 } from 'uuid';
-import { useGetCompetitonsQuery, useGetFixturesQuery, useGetResultsQuery } from '../services/footballApi';
-import Loader from './Loader';
+import { useGetCompetitonsQuery, useGetFixturesQuery, useGetResultsQuery } from '../../services/footballApi';
+import Loader from '../Loader';
 import _ from 'lodash';
 
 const { Option } = Select;

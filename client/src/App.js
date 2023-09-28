@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
-import { Navbar, Football, Homepage, CryptoDetails, Cryptocurrencies, News } from './components';
+import { Navbar, Football, Homepage, CryptoDetails, Cryptocurrencies, News, Portfolio } from './components';
 import './App.css';
 
 const App = () => {
@@ -38,6 +38,10 @@ const App = () => {
               <Route
                 path="/news"
                 element={<News />}
+              />
+              <Route
+                path="/portfolio"
+                element={<Portfolio />}
               />
             </Routes>
           </div>

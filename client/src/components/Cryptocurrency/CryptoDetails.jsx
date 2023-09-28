@@ -15,10 +15,10 @@ import {
   NumberOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
-import { useGetCryptoHistoryQuery } from '../services/cryptoApi';
-import { useGetCoinDetailsQuery } from '../services/cryptoApi';
-import LineChart from './LineChart';
-import Loader from './Loader';
+import { useGetCryptoHistoryQuery } from '../../services/cryptoApi';
+import { useGetCoinDetailsQuery } from '../../services/cryptoApi';
+import LineChart from '../LineChart';
+import Loader from '../Loader';
 
 const { Title, Text } = Typography;
 const { Option } = Select;

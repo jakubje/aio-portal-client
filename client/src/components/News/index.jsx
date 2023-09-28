@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
-import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
-import { useGetCryptosQuery } from '../services/cryptoApi';
-import Loader from './Loader';
+import { useGetCryptoNewsQuery } from '../../services/cryptoNewsApi';
+import { useGetCryptosQuery } from '../../services/cryptoApi';
+import Loader from '../Loader';
 import _ from 'underscore';
 const demoImage = 'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News';
 
