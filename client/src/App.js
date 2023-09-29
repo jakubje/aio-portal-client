@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
-import { Navbar, Football, Homepage, CryptoDetails, Cryptocurrencies, News, Portfolio } from './components';
+import { Navbar, Football, Homepage, CryptoDetails, Cryptocurrencies, News, Portfolio, Login, Register } from './components';
 import './App.css';
 
 const App = () => {
@@ -15,6 +15,14 @@ const App = () => {
         <Layout>
           <div className="routes">
             <Routes>
+              <Route
+                path="/register"
+                element={<Register />}
+              />
+              <Route
+                path="/login"
+                element={<Login />}
+              />
               <Route
                 path="/"
                 element={<Homepage />}

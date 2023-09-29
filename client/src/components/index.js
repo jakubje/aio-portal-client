@@ -5,4 +5,6 @@ export { default as Homepage } from './Homepage';
 export { default as Navbar } from './Navbar';
 export { default as Loader } from './Loader';
 export { default as News } from './News';
+export { default as Login } from './Login';
+export { default as Register } from './Register';
 export { default as Portfolio } from './Portfolio';

@@ -11,7 +11,6 @@ const Homepage = () => {
   const globalStats = data?.data?.stats;
   if (isFetching) return <Loader />;
   const { total24hVolume, totalCoins, totalExchanges, totalMarketCap, totalMarkets } = globalStats;
-  console.log(data);
   return (
     <>
       <Title

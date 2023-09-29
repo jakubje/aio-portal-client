@@ -8,6 +8,7 @@ import Loader from '../Loader';
 
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
+
   const { data: cryptoList, isFetching } = useListCoinsQuery(count);
 
   // const { data: cryptoList, isFetching } = useGetCryptosQuery(count);
