@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../slices/authActions';
 import Error from '../Error';
 import Loader from '../Loader';
-import { logout } from '../../slices/authSlice';
 
 const Login = () => {
   const { loading, user, error } = useSelector((state) => state.auth);

@@ -44,3 +44,27 @@ export const registerUser = createAsyncThunk('auth/register', async ({ email, na
     }
   }
 });
+
+export const fetchRefreshToken = createAsyncThunk('auth/refresh_token', async ({ refresh_token }, { rejectWithValue }) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { data } = await axios.post(`${backendURL}/refresh_token`, { refresh_token }, config);
+
+    // store user's token in local storage
+    localStorage.setItem('access_token', data.access_token);
+    // localStorage.setItem('refresh_token', data.refresh_token);
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      return rejectWithValue(error.response.data.message);
+    } else {
+      return rejectWithValue(error.message);
+    }
+  }
+});

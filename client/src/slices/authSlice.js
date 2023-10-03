@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, registerUser } from './authActions';
+import { fetchRefreshToken, loginUser, registerUser } from './authActions';
 
 const access_token = localStorage.getItem('access_token') ? localStorage.getItem('access_token') : null;
 
@@ -29,11 +29,11 @@ const authSlice = createSlice({
     },
   },
   extraReducers: {
-    [registerUser.pending]: (state) => {
+    [registerUser.pending]: (state, action) => {
       state.loading = true;
       state.error = null;
     },
-    [registerUser.fulfilled]: (state) => {
+    [registerUser.fulfilled]: (state, action) => {
       state.loading = false;
       state.success = true;
     },
@@ -41,7 +41,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
-    [loginUser.pending]: (state) => {
+    [loginUser.pending]: (state, action) => {
       state.loading = true;
       state.error = null;
     },
@@ -54,6 +54,9 @@ const authSlice = createSlice({
     [loginUser.rejected]: (state, payload) => {
       state.loading = false;
       state.error = payload;
+    },
+    [fetchRefreshToken.fulfilled]: (state, { payload }) => {
+      state.access_token = payload.access_token;
     },
   },
 });

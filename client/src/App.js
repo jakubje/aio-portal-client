@@ -3,8 +3,12 @@ import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
 import { Navbar, Football, Homepage, CryptoDetails, Cryptocurrencies, News, Portfolio, Login, Register } from './components';
 import './App.css';
+import { useSelector } from 'react-redux';
+import ProtectedRoute from './utils/ProtectedRoute';
 
 const App = () => {
+  // const { user } = useSelector((state) => state.auth);
+
   return (
     <div className="app">
       <div className="navbar">
@@ -27,17 +31,14 @@ const App = () => {
                 path="/"
                 element={<Homepage />}
               />
-
               <Route
                 path="/football"
                 element={<Football />}
               />
-
               <Route
                 path="/cryptocurrencies"
                 element={<Cryptocurrencies />}
               />
-
               <Route
                 path="/crypto/:coinId/:coinUUID"
                 element={<CryptoDetails />}
