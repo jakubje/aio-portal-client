@@ -31,7 +31,7 @@ export const cryptoLocalApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Portfolio'],
+  tagTypes: ['Portfolio', 'Transaction'],
   endpoints: (builder) => ({
     listCoins: builder.query({ query: (count) => `/list_coins?limit=${count}&offset=0` }),
     getCoinDetails: builder.query({ query: (coinId) => `/coin?coin_id=${coinId}` }),
@@ -40,9 +40,11 @@ export const cryptoLocalApi = createApi({
       providesTags: (result = [], error, arg) => ['Portfolio'],
     }),
     createPortfolio: builder.mutation({ query: (name) => ({ url: '/create_portfolio', method: 'POST', body: { name } }), invalidatesTags: ['Portfolio'] }),
-    getPortfolioRollUp: builder.query({ query: (portfolioId) => `/get_rollup?id=${portfolioId}` }),
+    getPortfolioRollUp: builder.query({ query: (portfolioId) => `/get_rollup?id=${portfolioId}`, providesTags: (result = [], error, arg) => ['Transaction'] }),
+    createTransaction: builder.mutation({ query: (data) => ({ url: '/create_transaction', method: 'POST', body: data }), invalidatesTags: ['Transaction'] }),
   }),
 });
 
 export const { useGetCryptosQuery, useGetCryptoHistoryQuery } = cryptoApi;
-export const { useListCoinsQuery, useGetCoinDetailsQuery, useListPortfoliosQuery, useCreatePortfolioMutation, useGetPortfolioRollUpQuery } = cryptoLocalApi;
+export const { useListCoinsQuery, useGetCoinDetailsQuery, useListPortfoliosQuery, useCreatePortfolioMutation, useGetPortfolioRollUpQuery, useCreateTransactionMutation } =
+  cryptoLocalApi;

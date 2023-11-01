@@ -8,12 +8,14 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import refreshMiddleware from './refreshMiddleware';
+import userInfoSlice from '../slices/userInfoSlice';
 const persistConfig = {
   key: 'root',
   storage,
 };
 
 const rootReducer = combineReducers({
+  userInfo: userInfoSlice,
   auth: authSlice,
   [cryptoApi.reducerPath]: cryptoApi.reducer,
   [cryptoLocalApi.reducerPath]: cryptoLocalApi.reducer,

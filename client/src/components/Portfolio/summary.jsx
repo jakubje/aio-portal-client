@@ -4,10 +4,16 @@ import { useForm } from 'react-hook-form';
 import Error from '../Error';
 import Loader from '../Loader';
 import IndividualPortfolio from './individualPortfolio';
+import Transaction from '../Transaction';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePortfolioId } from '../../slices/userInfoSlice';
+import useSelection from 'antd/lib/table/hooks/useSelection';
 
 const Summary = () => {
+  const dispatch = useDispatch();
+  const portfolioID = useSelector((state) => state.userInfo.portfolioId);
   const [portfolioName, setPortfolioName] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(portfolioID);
 
   const { register, handleSubmit } = useForm();
 
@@ -29,6 +35,8 @@ const Summary = () => {
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
+
+    dispatch(updatePortfolioId(event.target.value));
   };
 
   return (
@@ -59,7 +67,6 @@ const Summary = () => {
         value={selectedOption}
         onChange={handleSelectChange}
       >
-        <option value="">Select an option</option>
         {portfolios.map((portfolio) => (
           <option
             key={portfolio.id}
@@ -70,7 +77,8 @@ const Summary = () => {
         ))}
       </select>
 
-      <IndividualPortfolio portfolioID={selectedOption} />
+      <Transaction />
+      <IndividualPortfolio />
     </div>
   );
 };
