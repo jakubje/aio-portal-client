@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../slices/authSlice';
 import Summary from './summary';
 import Transaction from '../Transaction';
+import CustomTable from '../CustomTable';
+import { Button } from 'antd';
 
 const Portfolio = () => {
   const dispatch = useDispatch();
@@ -19,13 +21,15 @@ const Portfolio = () => {
     return (
       <div>
         Welcome {user.name}
-        <button
+        <Button
           className="button"
           onClick={() => dispatch(logout())}
         >
           Logout
-        </button>
+        </Button>
         <Summary />
+        <Transaction />
+        <CustomTable />
       </div>
     );
   }

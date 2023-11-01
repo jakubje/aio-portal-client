@@ -6,9 +6,9 @@ import { useListCoinsQuery } from '../../services/cryptoApi';
 import Loader from '../Loader';
 import { useSelector } from 'react-redux';
 import './index.css';
+import { Button, Select } from 'antd';
 
 const Transaction = () => {
-  console.log('Transaction entered');
   const portfolioID = useSelector((state) => state.userInfo.portfolioId);
   const [seen, setSeen] = useState(false);
   const [type, setType] = useState('buy');
@@ -41,9 +41,9 @@ const Transaction = () => {
       console.log(e);
     }
   };
-  const handleSelectChange = (e) => {
-    setType(e.target.value);
-    if (e.target.value === 'buy') {
+  const handleTypeChange = (value) => {
+    setType(value);
+    if (value === 'buy') {
       setValue('type', 0);
     } else {
       setValue('type', 1);
@@ -81,9 +81,33 @@ const Transaction = () => {
     // setValue('price_per_coin', pricePerCoin);
   };
 
-  const handleSymbolChange = (e) => {
-    setSymbol(e.target.value);
+  const handleSymbolChange = (value) => {
+    setSymbol(value);
   };
+
+  const onSearch = (value) => {
+    console.log('search:', value);
+  };
+
+  const filterOption = (input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
+  const cryptoItems = cryptocurrencyData.map((crypto) => {
+    return {
+      label: `(${crypto.coin_id}) ${crypto.name}`,
+      value: crypto.coin_id,
+    };
+  });
+
+  const typeItems = [
+    {
+      label: 'Buy',
+      value: 'buy',
+    },
+    {
+      label: 'Sell',
+      value: 'sell',
+    },
+  ];
 
   if (isLoading) return <Loader />;
   if (isFetching) return <Loader />;
@@ -91,37 +115,35 @@ const Transaction = () => {
 
   return (
     <div>
-      <button onClick={togglePop}>Add Transaction</button>
+      <Button onClick={togglePop}>Add Transaction</Button>
       {seen ? (
         <div className="popup">
           <div className="popup-inner">
             <form onSubmit={handleSubmit(submitForm)}>
               <button onClick={togglePop}>X</button>
               <div className="form-group">
-                <label>Select Cryptocurrency:</label>
-                <select
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder="Select portfolio"
+                  defaultValue={symbol}
+                  optionFilterProp="children"
                   onChange={handleSymbolChange}
-                  value={symbol}
-                >
-                  {cryptocurrencyData.map((crypto) => (
-                    <option
-                      key={crypto.coin_id}
-                      value={crypto.coin_id}
-                    >
-                      ({crypto.coin_id}) {crypto.name}
-                    </option>
-                  ))}
-                </select>
+                  onSearch={onSearch}
+                  filterOption={filterOption}
+                  options={cryptoItems}
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="transaction">Type</label>
-                <select
-                  onChange={handleSelectChange}
-                  value={type}
-                >
-                  <option value="buy">Buy</option>
-                  <option value="sell">Sell</option>
-                </select>
+
+                <Select
+                  showSearch
+                  style={{ width: 100 }}
+                  defaultValue={type}
+                  onChange={handleTypeChange}
+                  options={typeItems}
+                />
               </div>
 
               <div className="form-group">
@@ -148,9 +170,6 @@ const Transaction = () => {
                 />
               </div>
 
-              {/* <div className="form-group">
-          <p>Quantity: {quantity}</p>
-        </div> */}
               <div className="form-group">
                 <p>Price Per Coin: {pricePerCoin}</p>
               </div>

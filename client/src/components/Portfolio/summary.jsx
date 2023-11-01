@@ -3,17 +3,15 @@ import { useCreatePortfolioMutation, useListPortfoliosQuery } from '../../servic
 import { useForm } from 'react-hook-form';
 import Error from '../Error';
 import Loader from '../Loader';
-import IndividualPortfolio from './individualPortfolio';
-import Transaction from '../Transaction';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePortfolioId } from '../../slices/userInfoSlice';
-import useSelection from 'antd/lib/table/hooks/useSelection';
+import { Button, Dropdown, Select, Space, Typography } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 const Summary = () => {
   const dispatch = useDispatch();
-  const portfolioID = useSelector((state) => state.userInfo.portfolioId);
   const [portfolioName, setPortfolioName] = useState('');
-  const [selectedOption, setSelectedOption] = useState(portfolioID);
+  const portfolioID = useSelector((state) => state.userInfo.portfolioId);
 
   const { register, handleSubmit } = useForm();
 
@@ -22,8 +20,12 @@ const Summary = () => {
 
   const portfolios = data?.portfolios || [];
 
-  if (isFetching) return <Loader />;
-  if (isError) return <Error>{isError}</Error>;
+  const selectItems = portfolios.map((portfolio) => {
+    return {
+      label: portfolio.name,
+      value: portfolio.id,
+    };
+  });
 
   const submitForm = async () => {
     try {
@@ -33,53 +35,56 @@ const Summary = () => {
     }
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-
-    dispatch(updatePortfolioId(event.target.value));
+  const onChange = (value) => {
+    dispatch(updatePortfolioId(value));
   };
 
+  const onSearch = (value) => {
+    console.log('search:', value);
+  };
+
+  const filterOption = (input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
+  if (isFetching) return <Loader />;
+  if (isError) return <Error>{isError}</Error>;
+
   return (
-    <div>
-      <form onSubmit={handleSubmit(submitForm)}>
-        {error && <Error>{error}</Error>}
-        <div className="form-group">
-          <label htmlFor="portfolioName">Portfolio</label>
-          <input
-            type="portfolio"
-            className="form-input"
-            {...register('portfolio')}
-            required
-            onChange={(e) => setPortfolioName(e.currentTarget.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="button"
-          disabled={isLoading}
-        >
-          {isLoading ? <Loader /> : 'Create Portfolio'}
-        </button>
-      </form>
-
-      <select
-        value={selectedOption}
-        onChange={handleSelectChange}
-      >
-        {portfolios.map((portfolio) => (
-          <option
-            key={portfolio.id}
-            value={portfolio.id}
+    <>
+      <div>
+        <form onSubmit={handleSubmit(submitForm)}>
+          {error && <Error>{error}</Error>}
+          <div className="form-group">
+            <label htmlFor="portfolioName">Portfolio</label>
+            <input
+              type="portfolio"
+              className="form-input"
+              {...register('portfolio')}
+              required
+              onChange={(e) => setPortfolioName(e.currentTarget.value)}
+            />
+          </div>
+          <Button
+            type="submit"
+            className="button"
+            disabled={isLoading}
           >
-            {portfolio.name}
-          </option>
-        ))}
-      </select>
+            {isLoading ? <Loader /> : 'Create Portfolio'}
+          </Button>
+        </form>
 
-      <Transaction />
-      <IndividualPortfolio />
-    </div>
+        <Select
+          showSearch
+          style={{ width: 200 }}
+          placeholder="Select portfolio"
+          defaultValue={portfolioID}
+          optionFilterProp="children"
+          onChange={onChange}
+          onSearch={onSearch}
+          filterOption={filterOption}
+          options={selectItems}
+        />
+      </div>
+    </>
   );
 };
 

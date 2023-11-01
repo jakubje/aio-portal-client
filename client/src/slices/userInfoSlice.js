@@ -10,7 +10,6 @@ const userInfoSlice = createSlice({
   initialState,
   reducers: {
     updatePortfolioId: (state, action) => {
-      console.log('Action payload: ' + action.payload);
       state.portfolioId = action.payload;
     },
   },
